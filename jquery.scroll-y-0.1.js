@@ -22,10 +22,10 @@ $.fn.scrolly = function(options){
   $window.on('scroll', function(){
     var first = true;
     $blocks.each(function(i){ 
-    	// Setup top & bottom position variables for the current block in the loop
-    	var blockTopPos = $(this).offset().top - ($window.scrollTop() + $nav.height());
-    	var blockBotPos = $(this).offset().top - ($window.scrollTop() + $nav.height()) + $(this).height();
-    	// If we're on the first block set $active to the first block in the loop
+      // Setup top & bottom position variables for the current block in the loop
+      var blockTopPos = $(this).offset().top - ($window.scrollTop() + $nav.height());
+      var blockBotPos = $(this).offset().top - ($window.scrollTop() + $nav.height()) + $(this).height();
+      // If we're on the first block set $active to the first block in the loop
       if(first == true){ 
         $active = $(this);
         first = false;
@@ -35,7 +35,6 @@ $.fn.scrolly = function(options){
       	// Setup top & bottom position variables for the $active block in the loop
       	var activeTopPos = $active.offset().top - ($window.scrollTop() + $nav.height());
     	var activeBotPos = ($active.offset().top - $window.scrollTop() + $nav.height()) + $active.height();
-
     	// If $active block's bottom edge is past the bottom of the nav or the current block in the loop
     	// is less than or equal to the nav's bottom edge, move on
         if(activeBotPos < $nav.height() || blockTopPos <= $nav.height()){
