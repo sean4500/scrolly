@@ -34,13 +34,14 @@ $.fn.scrolly = function(options){
       } else {
       	// Setup top & bottom position variables for the $active block in the loop
       	var activeTopPos = $active.offset().top - ($window.scrollTop() + $nav.height());
-    		var activeBotPos = ($active.offset().top - $window.scrollTop() + $nav.height()) + $active.height()
-    		// If $active block's bottom edge is past the bottom of the nav or the current block in the loop
-    		// is less than or equal to the nav's bottom edge, move on
+    	var activeBotPos = ($active.offset().top - $window.scrollTop() + $nav.height()) + $active.height();
+
+    	// If $active block's bottom edge is past the bottom of the nav or the current block in the loop
+    	// is less than or equal to the nav's bottom edge, move on
         if(activeBotPos < $nav.height() || blockTopPos <= $nav.height()){
-        	// If the current loop block's bottom edge is below the bottom edge of the nav and $active block's
-        	// bottom edge is past the nav's bottom edge set the current loop block to active and update it's 
-        	// corresponding nav <a> with a class of "active"
+          // If the current loop block's bottom edge is below the bottom edge of the nav and $active block's
+          // bottom edge is past the nav's bottom edge set the current loop block to active and update it's 
+          // corresponding nav <a> with a class of "active"
           if(blockBotPos > $nav.height() && activeBotPos <= $nav.height()){
             $active = $(this);
             $nav.find('a.active').removeClass('active');
