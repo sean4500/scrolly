@@ -10,7 +10,7 @@
 $.fn.scrolly = function(options){
   // Setup defaults (more to come)
   var settings = $.extend({
-    blocks: $(".block")
+    blocks: $('.block')
   }, options);
 
   var $active;
