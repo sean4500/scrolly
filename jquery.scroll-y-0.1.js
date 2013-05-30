@@ -63,10 +63,18 @@ $.fn.scrolly = function(options){
   function scrollToBlock(){
     // Grab the hash value for the target <a> and remove the '#'
     var blockName = $(this).attr('href').replace('#','');
+    if(ogNavPos > $window.scrollTop()){
+      var navHeight = $nav.height();
+      navHeight += parseInt($nav.css('padding-top').replace('px',''));
+      navHeight += parseInt($nav.css('padding-bottom').replace('px',''));
+      var scrollTopVal = $('a[name='+ blockName +']').offset().top - navHeight;
+    } else {
+      var scrollTopVal = $('a[name='+ blockName +']').offset().top;
+    }
     // Scroll down to the <a> anchor which corresponds to the item clicked 
     // on in the nav
     $('body, html').animate({
-      scrollTop: $('a[name='+ blockName +']').offset().top
+      scrollTop: scrollTopVal
     }, settings.duration);
     // Prevent default link behavior
     return false;
