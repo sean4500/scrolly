@@ -63,16 +63,22 @@ $.fn.scrolly = function(options){
   function scrollToBlock(){
     // Grab the hash value for the target <a> and remove the '#'
     var blockName = $(this).attr('href').replace('#','');
-    if(ogNavPos > $window.scrollTop()){
+    // If the nav is sticky and the user is clicking a nav item before the 
+    // the top of the window has scrolled past the nav we need to account 
+    // for it's overall height including top & bottom padding values
+    if(settings.stickyNav == true && ogNavPos > $window.scrollTop()){
+      // Grab the navs height
       var navHeight = $nav.height();
+      // Add the top and bottom padding values to the overall height of the nav
       navHeight += parseInt($nav.css('padding-top').replace('px',''));
       navHeight += parseInt($nav.css('padding-bottom').replace('px',''));
+      // Set the scrollTop value to the appropriate block's anchor top offset minus the nav's height
       var scrollTopVal = $('a[name='+ blockName +']').offset().top - navHeight;
     } else {
+      // Otherwise if the nav is fixed just set the scrollTop to the top offset value of the block's anchor
       var scrollTopVal = $('a[name='+ blockName +']').offset().top;
     }
-    // Scroll down to the <a> anchor which corresponds to the item clicked 
-    // on in the nav
+    // Scroll down to the <a> anchor which corresponds to the item clicked on in the nav
     $('body, html').animate({
       scrollTop: scrollTopVal
     }, settings.duration);
