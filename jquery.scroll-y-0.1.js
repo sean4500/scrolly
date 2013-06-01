@@ -66,14 +66,14 @@ $.fn.scrolly = function(options){
     // If the nav is sticky and the user is clicking a nav item before the 
     // the top of the window has scrolled past the nav we need to account 
     // for it's overall height including top & bottom padding values
-    if(settings.stickyNav == true && ogNavPos > $window.scrollTop()){
+    if(settings.stickyNav == true){
       // Grab the navs height
       var navHeight = $nav.height();
       // Add the top and bottom padding values to the overall height of the nav
-      navHeight += parseInt($nav.css('padding-top').replace('px',''));
-      navHeight += parseInt($nav.css('padding-bottom').replace('px',''));
+      navHeight += parseInt($nav.css('padding-top').replace(/[^0-9]/g,''));
+      navHeight += parseInt($nav.css('padding-bottom').replace(/[^0-9]/g,''));
       // Set the scrollTop value to the appropriate block's anchor top offset minus the nav's height
-      var scrollTopVal = $('a[name='+ blockName +']').offset().top - navHeight;
+      var scrollTopVal = (ogNavPos > $window.scrollTop()) ? $('a[name='+ blockName +']').offset().top : $('a[name='+ blockName +']').offset().top;
     } else {
       // Otherwise if the nav is fixed just set the scrollTop to the top offset value of the block's anchor
       var scrollTopVal = $('a[name='+ blockName +']').offset().top;
@@ -89,18 +89,30 @@ $.fn.scrolly = function(options){
   function stickyNav(){
     // Make sure we want the nav to stick to the top of the window
     if(settings.stickyNav == true){
-      // If the top of the nav bar hits the top of the window change it's position to fixed
+      // Grab the navs height
+      var navHeight = $nav.height();
+      // Add the top and bottom padding values to the overall height of the nav
+      navHeight += parseInt($nav.css('padding-top').replace(/[^0-9]/g,''));
+      navHeight += parseInt($nav.css('padding-bottom').replace(/[^0-9]/g,''));
+      // If the top of the nav bar hits the top of the window change it's position to fixed and give the body
+      // the amount of padding equal to the height of the nav so the page doesn't jump
       if($nav.offset().top - $window.scrollTop() <= 0){
         $nav.css({
           position:'fixed',
           top: '0px'
         });
+        $('body').css({
+          paddingTop: navHeight + 'px'
+        });
       };
-      // Puts the nav back into it's old place in the DOM once the nav reaches it's old position
+      // Puts the nav back into it's old place in the DOM once the nav reaches it's old position and remove padding from body
       if(ogNavPos > $window.scrollTop()){
         $nav.css({
           position:'relative',
-          top: 'inherit'
+          top:'inherit'
+        });
+        $('body').css({
+          paddingTop: '0'
         });
       };
     };
